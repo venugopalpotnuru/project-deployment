@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: frontend
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      type: reactjs
+  template:
+    metadata:
+      labels:
+        type: reactjs
+    spec:
+      containers:
+      - name: frontend-pod
+        image: venugopalpotnuru/eks-build:frontend
+        ports:
+        - containerPort: 80

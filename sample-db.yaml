@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: database
+  name: mariadb-deployment
+spec: 
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: mariadb
+  template: 
+    metadata:
+      labels:
+        app: mariadb 
+    spec:
+      containers:
+      - name: mariadb
+        image: mariadb
+        ports:
+        - containerPort: 3306 
+        env:
+          - name: MARIADB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mariadb-secret
+                key: mariadb-root-password
+          - name: MARIADB_USER
+            valueFrom:
+              secretKeyRef:
+                name: mariadb-user-secret
+                key: mariadb-user
+          - name: MARIADB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mariadb-user-secret
+                key: mariadb-user-password
